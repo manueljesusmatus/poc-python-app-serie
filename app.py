@@ -7,4 +7,4 @@ def OBTENER_INFO(usar_mock=False):
     return result
 
 if __name__=='__main__':
-    response = OBTENER_INFO(True)
+    response = OBTENER_INFO(False)

@@ -30,7 +30,7 @@ class SerieService:
             html_obj = self.htmlService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
 
             self.logger.logger.info(f'Se han encontrado {len(html_obj)} series')
-            self.series = [SerieFactory.htmlToSerie(serie) for serie in html_obj]
+            self.series = [self.saveSerie(SerieFactory.htmlToSerie(serie)) for serie in html_obj]
 
         except:
             self.logger.logger.error(f'Problema no controlado')
