@@ -16,5 +16,5 @@ def htmlToSerie(html) -> Serie:
         serie['url'] = html.a['href'].strip()
         return Serie((serie['id'], serie['tipo'], serie['nombre'], serie['imagen'], serie['url']))
     except:
-        logger.error(f'Error al crear objeto serie de {html["data-identifier"]}')
+        logger.logger.error(f'Error al crear objeto serie de {html["data-identifier"]}')
         return {}

@@ -14,7 +14,7 @@ class HtmlService:
         return BeautifulSoup(file_content, parser)
 
     def getPage(self, url_page: str, code_format: str = 'utf-8') -> str:
-        self.logger.info(f'Consultando la siguiente url {url_page}')
+        self.logger.logger.info(f'Consultando la siguiente url {url_page}')
         req = Request(url=url_page, headers=self.HEADERS)
         return urlopen(req).read().decode(code_format)
 
