@@ -18,7 +18,7 @@ class SerieService:
     def __init__(self) -> None:
         self.mockService = MockService("serie.mock")
         self.pageService = PageService()
-        self.logger = CustomLogger()
+        self.logger = CustomLogger(__name__)
         self.serieRespository = SerieRepository(db_connection.cursor(), db_connection)
 
     def getSeriesDelDia(self):

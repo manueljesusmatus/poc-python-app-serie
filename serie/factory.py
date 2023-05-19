@@ -5,7 +5,7 @@ from page.service import PageService
 
 def htmlToSerie(html) -> Serie:
     pageService = PageService()
-    logger = CustomLogger()
+    logger = CustomLogger(__name__)
     serie = {}
     try:
         serie['id'] = html['data-identifier']

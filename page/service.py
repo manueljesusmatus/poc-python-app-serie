@@ -7,7 +7,7 @@ class PageService:
     HEADERS = {"User-Agent": "Mozilla/5.0"}
 
     def __init__(self) -> None:
-        self.logger = CustomLogger()
+        self.logger = CustomLogger(__name__)
         pass
 
     def getParsed(self, file_content: str, parser: str = "html.parser") -> str:

@@ -5,7 +5,7 @@ class MockService:
     mock_name: str
 
     def __init__(self, mock_name) -> None:
-        self.logger = CustomLogger()
+        self.logger = CustomLogger(__name__)
         self.mock_name = mock_name
 
     def write(self, content_file):

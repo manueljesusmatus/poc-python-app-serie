@@ -1,1 +1,1 @@
-40 1 * * * cd /app && python app.py
+10 * * * * cd /app && python app.py

@@ -9,7 +9,7 @@ class SerieRepository:
     def __init__(self, db_cursor, db_connection) -> None:
         self.db_cursor = db_cursor
         self.db_connection = db_connection
-        self.logger = CustomLogger()
+        self.logger = CustomLogger(__name__)
         pass
 
     def findAll(self) -> list:
