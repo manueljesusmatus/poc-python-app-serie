@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from logger.logger import CustomLogger
 
-class HtmlService:
+class PageService:
     logger: CustomLogger
     HEADERS = {"User-Agent": "Mozilla/5.0"}
 

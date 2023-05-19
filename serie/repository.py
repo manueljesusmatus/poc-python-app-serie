@@ -1,4 +1,4 @@
-from model.serie import Serie
+from serie.model import Serie
 from mysql.connector.connection import MySQLConnection, MySQLCursor
 from logger.logger import CustomLogger
 class SerieRepository:
@@ -36,7 +36,7 @@ class SerieRepository:
             vals = (str(serie.id), serie.tipo, serie.nombre, serie.imagen, serie.url)
             self.db_cursor.execute(query, vals)
             self.db_connection.commit()
-            result = self.db_cursor.lastrowid()
+            result = self.db_cursor.lastrowid
             return result
         except Exception as e: 
             self.logger.logger.error(e)

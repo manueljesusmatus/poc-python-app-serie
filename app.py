@@ -1,4 +1,4 @@
-from service.serie import SerieService
+from serie.service import SerieService
 
 def OBTENER_INFO(usar_mock=False):
     serieService = SerieService()

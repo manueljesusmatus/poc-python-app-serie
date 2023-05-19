@@ -1,14 +1,15 @@
-import factory.serie as SerieFactory
-from service.htmlmock import MockService
-from service.html import HtmlService
-from repository.serie import SerieRepository
+import serie.factory as SerieFactory
+from serie.model import Serie
+from mock.service import MockService
+from page.service import PageService
+from serie.repository import SerieRepository
 from logger.logger import CustomLogger
 from connect import db_connection
 
 class SerieService:
     logger: CustomLogger
     mockService : MockService
-    htmlService : HtmlService
+    pageService : PageService
     serieRespository: SerieRepository
     series: list = []
     URL_PAGE = "https://lectortmo.com/populars-boys"
@@ -16,18 +17,18 @@ class SerieService:
 
     def __init__(self) -> None:
         self.mockService = MockService("serie.mock")
-        self.htmlService = HtmlService()
+        self.pageService = PageService()
         self.logger = CustomLogger()
         self.serieRespository = SerieRepository(db_connection.cursor(), db_connection)
 
     def getSeriesDelDia(self):
         try:
-            content = self.htmlService.getPage(self.URL_PAGE)
+            content = self.pageService.getPage(self.URL_PAGE)
             self.mockService.write(content)
             
             self.logger.logger.info("Buscando series actualizadas ...")
-            parse = self.htmlService.getParsed(content)
-            html_obj = self.htmlService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
+            parse = self.pageService.getParsed(content)
+            html_obj = self.pageService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
 
             self.logger.logger.info(f'Se han encontrado {len(html_obj)} series')
             self.series = [self.saveSerie(SerieFactory.htmlToSerie(serie)) for serie in html_obj]
@@ -42,8 +43,8 @@ class SerieService:
             content = self.mockService.read()
 
             self.logger.logger.info("Buscando series actualizadas ...")
-            parse = self.htmlService.getParsed(content)
-            html_obj = self.htmlService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
+            parse = self.pageService.getParsed(content)
+            html_obj = self.pageService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
 
             self.logger.logger.info(f'Se han encontrado {len(html_obj)} series')
             self.series = [self.saveSerie(SerieFactory.htmlToSerie(serie)) for serie in html_obj]
@@ -53,12 +54,13 @@ class SerieService:
             
         return self.series
     
-    def saveSerie(self, serie) -> None:
+    def saveSerie(self, serie: Serie) -> None:
         self.logger.logger.info(f'Guardando serie {serie}')
         if(self.serieRespository.findOneById(serie.id) != None):
-            self.logger.logger.warn(f'Serie ya existe')
+            self.logger.logger.warn(f'Serie {serie.id} ya existe')
             return serie
         self.serieRespository.create(serie)
+        self.logger.logger.info(f'Serie {serie.id} creada')
         return serie
 
 
