@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+serie.mock
+
 # C extensions
 *.so
 
