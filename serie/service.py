@@ -24,15 +24,9 @@ class SerieService:
     def getSeriesDelDia(self):
         try:
             content = self.pageService.getPage(self.URL_PAGE)
-            self.mockService.write(content)
-            
-            self.logger.logger.info("Buscando series actualizadas ...")
-            parse = self.pageService.getParsed(content)
-            html_obj = self.pageService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
-
-            self.logger.logger.info(f'Se han encontrado {len(html_obj)} series')
-            self.series = [self.saveSerie(SerieFactory.htmlToSerie(serie)) for serie in html_obj]
-
+            if(content is not None):
+                self.mockService.write(content)
+                return self.getSeries(content)
         except:
             self.logger.logger.error(f'Problema no controlado')
 
@@ -41,17 +35,19 @@ class SerieService:
     def getSeriesDelDiaMock(self):
         try:
             content = self.mockService.read()
+            return self.getSeries(content)
+        except:
+            self.logger.logger.error(f'Problema no controlado')
 
+    def getSeries(self, content) -> list:
+        try:
             self.logger.logger.info("Buscando series actualizadas ...")
             parse = self.pageService.getParsed(content)
             html_obj = self.pageService.getAll(parse, 'div', 'class', self.FIND_PATTERN)
-
             self.logger.logger.info(f'Se han encontrado {len(html_obj)} series')
             self.series = [self.saveSerie(SerieFactory.htmlToSerie(serie)) for serie in html_obj]
-
         except:
             self.logger.logger.error(f'Problema no controlado')
-            
         return self.series
     
     def saveSerie(self, serie: Serie) -> None:
